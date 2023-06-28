@@ -3,10 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import {
     Card,
     Input,
-    Checkbox,
     Button,
     Typography,
-    Alert,
 } from "@material-tailwind/react";
 import AlertComponent from './Alert';
 

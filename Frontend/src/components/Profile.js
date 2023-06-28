@@ -3,8 +3,6 @@ import {
     CardHeader,
     CardBody,
     Typography,
-    IconButton,
-    Button,
     Chip
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";

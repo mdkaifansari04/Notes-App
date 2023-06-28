@@ -3,17 +3,15 @@ import { Link, useNavigate } from "react-router-dom";
 import {
     Card,
     Input,
-    Checkbox,
     Button,
     Typography,
-    Alert,
 } from "@material-tailwind/react";
 import AlertComponent from './Alert';
 
-const host = `http://localhost:8000/
-`
 
 function Signup(props) {
+    const host = process.env.REACT_APP_HOST;
+
     const [credentials, setCredentials] = useState({ userName: "", email: "", password: "" })
     const handleChange = (e) => {
         setCredentials({ ...credentials, [e.target.name]: e.target.value })
