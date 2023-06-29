@@ -1,24 +1,40 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link, useNavigate } from "react-router-dom";
 import {
     Card,
     Input,
     Button,
     Typography,
+    Spinner
 } from "@material-tailwind/react";
 import AlertComponent from './Alert';
+import notesContext from '../context/Note/notesContext';
 
 const host =process.env.REACT_APP_HOST
 
 function Login(props) {
     const navigate = useNavigate();
     const [credentials, setCredentials] = useState({ userName: "", email: "", password: "" })
+    const [loader, setLoader]= useState(false)
+    const context = useContext(notesContext)
+    const {handleShowAlert} = context
+
+    useEffect(() =>{
+        if (localStorage.getItem("token")) {
+            navigate('/')
+        }
+        if (!navigator.onLine) {
+            handleShowAlert("No Internet Connection !", "red")
+        }
+    },[])
+
 
     const handleChange = (e) => {
         setCredentials({...credentials, [e.target.name]: e.target.value})
     }
     
     const handleSubmit = async (e) =>{
+        setLoader(true)
         e.preventDefault()
         const response = await fetch(`${host}api/user/login`, {
             method: "POST",
@@ -29,23 +45,16 @@ function Login(props) {
         });
 
         const json = await response.json()
-        console.log(json);
+        setLoader(false)
         if(json.success){
             localStorage.setItem("token" , json.token)
             navigate('/')
-            props.handleShowAlert("Logged In Successfully", "green")
+            handleShowAlert("Logged In Successfully", "green")
         } else{
             navigate('/login')
-            props.handleShowAlert("Wrong Credentials", "red")
+            handleShowAlert("Wrong Credentials", "red")
         }
     }
-
-    useEffect(() =>{
-        if (localStorage.getItem("token")) {
-            navigate('/')
-        }
-    },[])
-
     return (
         <div className='container my-7 mx-auto flex justify-around'>
             <div className="animation hidden lg:block">
@@ -65,7 +74,7 @@ function Login(props) {
                             <Input className="dark:text-white" onChange={handleChange} id='password' name='password' value={credentials.password} type="password" size="lg" label="Password" required/>
                         </div>
                         <Button type='submit' className="mt-6" fullWidth>
-                            Sign In
+                        {loader? <div className="flex justify-center"><Spinner className='h-4 w-4' /></div> : "Login"}
                         </Button>
                         <Typography color="gray" className="mt-4 text-center font-normal dark:text-white">
                             Don't have an account?{" "}

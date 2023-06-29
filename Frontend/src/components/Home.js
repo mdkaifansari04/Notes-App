@@ -1,20 +1,26 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import Notes from './Notes'
 import AlertComponent from './Alert'
 import { useNavigate } from 'react-router-dom'
+import notesContext from '../context/Note/notesContext'
 
 function Home(props) {
     const navigate = useNavigate()
-    useEffect(()=>{
-        if (localStorage.getItem('token') === null){
+    const context = useContext(notesContext)
+    const { handleShowAlert } = context
+    useEffect(() => {
+        if (!navigator.onLine) {
+            handleShowAlert("No Internet Connection !", "red")
+        }
+        if (localStorage.getItem('token') === null) {
             navigate('/login')
         }
     })
 
     return (
         <div>
-            <Notes handleShowAlert = {props.handleShowAlert}/>
-            <AlertComponent showAlert={props.showAlert} setShowAlert={props.setShowAlert} />
+            <Notes />
+            <AlertComponent />
         </div>
     )
 }

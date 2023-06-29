@@ -1,4 +1,4 @@
-import React, { useContext, useState,useRef } from "react";
+import React, { useContext, useState, useRef } from "react";
 import {
     Button,
     Dialog,
@@ -8,7 +8,8 @@ import {
     IconButton,
     Typography,
     Input,
-    Textarea
+    Textarea,
+    Spinner
 } from "@material-tailwind/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import notesContext from "../context/Note/notesContext";
@@ -17,7 +18,7 @@ export default function CreateNote(props) {
 
     const { open, handleOpen } = props
     const context = useContext(notesContext)
-    const { addNotes } = context
+    const { addNotes, loader,setLoader } = context
     const closeRef = useRef(null)
 
     const [note, setNote] = useState({ title: "", description: "", tag: "" })
@@ -26,11 +27,10 @@ export default function CreateNote(props) {
         setNote({ ...note, [e.target.name]: e.target.value })
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
+        setLoader(true)
+        await addNotes(note.title, note.description, note.tag)
         closeRef.current.click()
-        console.log(note);
-        props.handleShowAlert("Note Created Successfully", "green")
-        addNotes(note.title, note.description, note.tag)
     }
 
     return (
@@ -54,7 +54,7 @@ export default function CreateNote(props) {
                     <div className="flex flex-col">
                         <Input required className="text-3xl font-bold capitalize dark:text-white" onChange={handleChange} type="text" name="title" id="title" variant="standard" label="Title " min={5} />
                         <div className="my-5">
-                            <Textarea required rows={6} type="text" className="dark:text-white" name="description" id="description" onChange={handleChange}  variant="static" label="Description" min={5} />
+                            <Textarea required rows={6} type="text" className="dark:text-white" name="description" id="description" onChange={handleChange} variant="static" label="Description" min={5} />
                         </div>
                         <Input required className="text-2xl dark:text-white" onChange={handleChange} type="text" name="tag" id="tag" variant="standard" label="Tags " />
                     </div>
@@ -63,8 +63,8 @@ export default function CreateNote(props) {
                     <Button ref={closeRef} variant="text" color="blue-gray" onClick={handleOpen}>
                         cancel
                     </Button>
-                    <Button disabled={note.title.length < 5 || note.description.length < 5 } type="submit" color="green" variant="gradient" onClick={handleSubmit}>
-                        Save
+                    <Button disabled={note.title.length < 5 && note.description.length < 5} type="submit" color="green" variant="gradient" onClick={handleSubmit}>
+                        {loader ? <Spinner className="w-4 h-4" /> : "Save"}
                     </Button>
                 </DialogFooter>
             </Dialog>

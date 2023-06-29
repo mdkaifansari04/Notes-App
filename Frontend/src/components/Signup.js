@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Link, useNavigate } from "react-router-dom";
 import {
     Card,
     Input,
     Button,
     Typography,
+    Spinner
 } from "@material-tailwind/react";
 import AlertComponent from './Alert';
+import notesContext from '../context/Note/notesContext';
 
 
 function Signup(props) {
@@ -16,10 +18,22 @@ function Signup(props) {
     const handleChange = (e) => {
         setCredentials({ ...credentials, [e.target.name]: e.target.value })
     }
-    const [showAlert, setShowAlert] = useState(false);
-
+    const [loader, setLoader]= useState(false)
+    const context = useContext(notesContext)
+    const {handleShowAlert} = context
     const navigate = useNavigate()
+
+    useEffect(() => {
+        if (localStorage.getItem("token")) {
+            navigate('/')
+        }
+        if (!navigator.onLine) {
+            handleShowAlert("No Internet Connection !", "red")
+        }
+    }, [])
+
     const handleSubmit = async (e) => {
+        setLoader(true)
         e.preventDefault()
         const response = await fetch(`${host}api/user/register`, {
             method: "POST",
@@ -30,23 +44,17 @@ function Signup(props) {
         })
 
         const json = await response.json()
-        console.log(json);
+        setLoader(false)
 
         if (json.success) {
             navigate('/')
             localStorage.setItem("token", json.token)
-            props.handleShowAlert("Successfully Account Registered", "green")
+            handleShowAlert("Successfully Account Registered", "green")
         } else {
             navigate('/signup')
-            props.handleShowAlert(json.errors[0].msg, "red")
+            handleShowAlert(json.errors[0].msg, "red")
         }
     }
-
-    useEffect(() => {
-        if (localStorage.getItem("token")) {
-            navigate('/')
-        }
-    }, [])
     return (
         <div className='m-0 p-0'>
             <div className='container my-10 mx-auto flex justify-around'>
@@ -68,7 +76,7 @@ function Signup(props) {
                                 <Input className="dark:text-white" onChange={handleChange} id='password' name='password' value={credentials.password} type="password" size="lg" min={8} label="Password" required />
                             </div>
                             <Button type='submit' className="mt-6" fullWidth>
-                                Sign Up
+                                {loader? <div className="flex justify-center"><Spinner className="h-4 w-4" /></div> : "Sign Up"}
                             </Button>
                             <Typography color="gray" className="mt-4 text-center font-normal dark:text-white">
                                 Already have an account?{" "}

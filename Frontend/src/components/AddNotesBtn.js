@@ -14,7 +14,7 @@ import React from "react";
 import CreateNote from "./CreateNotes";
 
 export default function AddNotesBtn(props) {
-    
+
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen((cur) => !cur);
 
@@ -29,14 +29,14 @@ export default function AddNotesBtn(props) {
                     </SpeedDialHandler>
                     <SpeedDialContent className="snap-y">
                         <SpeedDialAction>
-                        <Tooltip className="bg-black relative top-32 text-white dark:bg-white dark:text-black" content="Add Note" placement="top">
-                        <i onClick={handleOpen} class="fa-solid fa-feather " style={{fontSize : "1.2rem", color: "#1E3050"}} ></i>
-                        </Tooltip>
+                            <Tooltip className="bg-black text-white dark:bg-white dark:text-black mr-10" content="Add Note" placement="right" >
+                                <i onClick={handleOpen} className="fa-solid fa-feather " style={{ fontSize: "1.2rem", color: "#1E3050" }} ></i>
+                            </Tooltip>
                         </SpeedDialAction>
                     </SpeedDialContent>
                 </SpeedDial>
             </div>
-            <CreateNote handleShowAlert={props.handleShowAlert} title="Add New Note" handleOpen={handleOpen} open={open} />
+            <CreateNote title="Add New Note" handleOpen={handleOpen} open={open} />
         </div>
     )
 }

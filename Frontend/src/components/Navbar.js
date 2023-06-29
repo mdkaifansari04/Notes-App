@@ -62,23 +62,7 @@ export default function Example(props) {
 
     const showProfile = async () => {
         try {
-            const response = await fetch(`${host}api/user/getuser`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "auth-token":localStorage.getItem("token")
-                },
-            })
-            let json = await response.json()
-            console.log(json);
-
-            if(json.success){
-                localStorage.setItem("userName", json.user.userName)
-                localStorage.setItem("email", json.user.email)
-                navigate('/profile')
-            }else{
-                navigate('/login')
-            }
+            navigate('/profile')
         } catch (error) {
             console.log(error);
         }

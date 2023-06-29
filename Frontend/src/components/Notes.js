@@ -12,7 +12,8 @@ import {
     IconButton,
     Typography,
     Input,
-    Textarea
+    Textarea,
+    Spinner
 } from "@material-tailwind/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import notesContext from '../context/Note/notesContext';
@@ -20,7 +21,7 @@ import notesContext from '../context/Note/notesContext';
 function Notes(props) {
 
     const context = useContext(notesContext);
-    const { NoteState, getAllNotes, editNote } = context
+    const { NoteState, getAllNotes, editNote, loader,setLoader } = context
 
 
     useEffect(() => {
@@ -47,10 +48,10 @@ function Notes(props) {
         handleOpen()
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
+        setLoader(true)
+        await editNote(editedNote.id, editedNote.title, editedNote.description, editedNote.tag)
         refCLose.current.click()
-        editNote(editedNote.id, editedNote.title, editedNote.description, editedNote.tag)
-        props.handleShowAlert("Note Edited Successfully", "green")
     }
 
 
@@ -90,18 +91,18 @@ function Notes(props) {
                                 cancel
                             </Button>
                             <Button disabled={editedNote.title.length < 5 || editedNote.description.length < 5 } type="submit" color="green" variant="gradient" onClick={handleSubmit}>
-                                Update
+                            {loader ? <Spinner className="w-4 h-4" /> : "Update"}
                             </Button>
                         </DialogFooter>
                     </Dialog>
                 </div>
                 {NoteState.length <= 0 &&  <lottie-player src="https://assets10.lottiefiles.com/private_files/lf30_cgfdhxgx.json"  background="transparent"  speed="1"  style={{maxWidth: "400px", maxHeight: "300px"}} loop autoplay></lottie-player>}
                 { NoteState.length > 0 && NoteState.map((note) =>
-                    <Note handleShowAlert={props.handleShowAlert} key={note._id} title={note.title} description={note.description} tag={note.tag} id={note._id} updateNote={updateNote} />
+                    <Note key={note._id} title={note.title} description={note.description} tag={note.tag} id={note._id} updateNote={updateNote} />
                 )}
             </div>
             <div className="add-note">
-                <AddNotesBtn handleShowAlert={props.handleShowAlert} />
+                <AddNotesBtn  />
             </div>
         </div>
     )
