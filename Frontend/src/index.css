@@ -13,6 +13,9 @@
     display: none;
 }
 
+/* #root{
+    height: 100vh !important;
+} */
 
 /* Tailwind CSS */
 @tailwind base;

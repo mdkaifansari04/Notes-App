@@ -33,8 +33,9 @@ const NoteState = (props) => {
                     }
                 });
                 const data = await response.json(); // parses JSON response into native JavaScript objects
-                console.log(data)
-                setNote(data)
+                console.log(data.note);
+                setNote(data.note)
+                console.log(NoteState)
 
                 const userData = await fetch(`${host}api/user/getuser`, {
                     method: "GET",
@@ -62,7 +63,6 @@ const NoteState = (props) => {
 
         try {
             //? API call
-
             const response = await fetch(`${host}api/note/create`, {
                 method: "POST",
                 headers: {
@@ -85,6 +85,7 @@ const NoteState = (props) => {
                     "createdAt": data.note.createdAt,
                     "updatedAt": data.note.updatedAt
                 }
+                console.log(typeof(NoteState));
                 setNote(NoteState.concat(addedNote))
             } else {
                 handleShowAlert("Something went wrong, try again", "red")

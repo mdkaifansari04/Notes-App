@@ -39,7 +39,7 @@ function App() {
       <NoteState>
         <Router>
           <ComplexNavbar mode={mode} setMode={setMode} />
-          <div className="p-12 md:py-16 bg-[#f6f6f6] dark:bg-[#0F172A] w-full h-full">
+          <div className="p-12 md:py-16 bg-[#f6f6f6] dark:bg-[#0F172A] w-full h-full" style={{height: "100vh", overflowY : "auto"}}>
             <Routes>
               <Route exact path="/" element={<Home mode={mode} />} />
               <Route exact path="/login" element={<Login />} />

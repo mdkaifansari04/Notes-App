@@ -26,6 +26,7 @@ const createNote = async (req, res) => {
                 res.status(500).json({ success: false, message: err.message })
             })
     } catch (error) {
+        console.log(error);
         res.status(500).json({
             success: false,
             message: error.message
@@ -50,6 +51,7 @@ const getNotes = async (req, res) => {
 
         res.status(200).json({ success: true, note: foundNotes })
     } catch (error) {
+        console.log(error);
         res.status(500).json({
             success: false,
             message: error.message
