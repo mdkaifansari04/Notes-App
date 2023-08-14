@@ -1,25 +1,26 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "name": "Mind Memo",
+  "short_name": "Mind Memo",
+  "description": " Introducing my Notes Application, a powerful tool built with React, Tailwind CSS, Material Tailwind, and CSS on the frontend. On the backend, I've utilized Node.js, Express, JWT authentication, and MongoDB for data storage.This app offers a seamless user experience with features such as account creation, login, and secure authentication. Take control of your ideas by creating, editing, and deleting notes effortlessly. To add a personal touch, each user is assigned a dynamic avatar generated uniquely for them. Plus, you can customize your app's appearance with the light and dark mode options.Boost your productivity and organization with this dynamic and versatile Notes Application..",
   "icons": [
-    {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
-    },
-    {
-      "src": "logo192.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "logo512.png",
-      "type": "image/png",
-      "sizes": "512x512"
-    }
+      {
+          "src": "/favicon.ico",
+          "sizes": "64x64 32x32 24x24 16x16",
+          "type": "image/x-icon"
+      },
+      {
+          "src": "/android-chrome-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+      },
+      {
+          "src": "/android-chrome-512x512.png",
+          "sizes": "512x512",
+          "type": "image/png"
+      }
   ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "start_url": "/",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
+  "display": "standalone"
 }
